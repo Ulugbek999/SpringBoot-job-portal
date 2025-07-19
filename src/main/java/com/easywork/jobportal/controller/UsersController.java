@@ -1,6 +1,7 @@
 package com.easywork.jobportal.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,12 +42,24 @@ public class UsersController {
 
     //Catching the data from the register.html and then adding new user in the UsersService
     @PostMapping("/register/new")
-    public String userRegistration(@Valid Users users){
+    public String userRegistration(@Valid Users users, Model model){    //checking if email exists before registering the user
+
        // System.out.println("User: : " + users);
-        
+        Optional<Users> optionalUsers = usersService.getUserByEmail(users.getEmail());
+        if(optionalUsers.isPresent()){
+            model.addAttribute("error", "Email already registered, try to login or register with other email." );
+            List<UsersType> usersTypes = usersTypeService.getAll();
+            model.addAttribute("getAllTypes", usersTypes);
+            model.addAttribute("user", new Users());
+            return "register";
+        }
+
+
        usersService.addNew(users);
        return "dashboard";
 
     }
+
+
     
 }
