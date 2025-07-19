@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.easywork.jobportal.entity.JobSeekerProfile;
@@ -21,17 +22,26 @@ public class UsersService {
     private final JobSeekerProfileRepository  jobSeekerProfileRepository;
     private final RecruiterProfileRepository recruiterProfileRepository;
 
+
+    //for the custom authentication success handling
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UsersService(UsersRepository usersRepository, JobSeekerProfileRepository jobSeekerProfileRepository, RecruiterProfileRepository recruiterProfileRepository){
+    public UsersService(UsersRepository usersRepository, JobSeekerProfileRepository jobSeekerProfileRepository, RecruiterProfileRepository recruiterProfileRepository, PasswordEncoder passwordEncoder){
         this.jobSeekerProfileRepository = jobSeekerProfileRepository;
         this.recruiterProfileRepository = recruiterProfileRepository;
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     
     //this function receives the data from the UsersController and then saves them in the MySQL/Hibernate entities using Repository 
     public Users addNew(Users users){
         users.setActive(true);
         users.setRegistrationDate(new Date(System.currentTimeMillis()));
+
+        //encoding the user's password here:
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        
         Users savedUser = usersRepository.save(users);
         int userTypeId = users.getUserTypeId().getUserTypeId();
         if(userTypeId == 1){
