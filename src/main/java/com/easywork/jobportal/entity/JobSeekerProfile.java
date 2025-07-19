@@ -30,7 +30,7 @@ public class JobSeekerProfile {
         private String state;
         private String country;
         private String workAuthorization;
-        private String employeementType;
+        private String employmentType;
         private String resume;
         @Column(nullable=true, length=64)
         private String profilePhoto;
@@ -43,10 +43,10 @@ public class JobSeekerProfile {
     }
 
 
-    public JobSeekerProfile(String city, String country, String employeementType, String firstName, String lastName, String profilePhoto, String resume, List<Skills> skills, String state, int userAccountId, Users userId, String workAuthorization) {
+    public JobSeekerProfile(String city, String country, String employmentType, String firstName, String lastName, String profilePhoto, String resume, List<Skills> skills, String state, int userAccountId, Users userId, String workAuthorization) {
         this.city = city;
         this.country = country;
-        this.employeementType = employeementType;
+        this.employmentType = employmentType;
         this.firstName = firstName;
         this.lastName = lastName;
         this.profilePhoto = profilePhoto;
@@ -56,6 +56,10 @@ public class JobSeekerProfile {
         this.userAccountId = userAccountId;
         this.userId = userId;
         this.workAuthorization = workAuthorization;
+    }
+
+    public JobSeekerProfile(Users users){
+        this.userId = users;
     }
 
 
@@ -140,12 +144,12 @@ public class JobSeekerProfile {
 
 
     public String getEmployeementType() {
-        return employeementType;
+        return employmentType;
     }
 
 
-    public void setEmployeementType(String employeementType) {
-        this.employeementType = employeementType;
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
     }
 
 
@@ -183,7 +187,7 @@ public class JobSeekerProfile {
     public String toString() {
         return "JobSeekerProfile [userAccountId=" + userAccountId + ", userId=" + userId + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", city=" + city + ", state=" + state + ", country=" + country
-                + ", workAuthorization=" + workAuthorization + ", employeementType=" + employeementType + ", resume="
+                + ", workAuthorization=" + workAuthorization + ", employeementType=" + employmentType + ", resume="
                 + resume + ", profilePhoto=" + profilePhoto + ", skills=" + skills + "]";
     }
 

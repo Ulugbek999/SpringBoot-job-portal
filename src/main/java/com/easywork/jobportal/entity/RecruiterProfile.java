@@ -21,7 +21,7 @@ public class RecruiterProfile {
     private Users userID;
 
     private String firstName;
-    private String lastname;
+    private String lastName;
     private String city;
     private String state;
     private String country;
@@ -34,16 +34,20 @@ public class RecruiterProfile {
         //empty contstructor
     }
 
-    public RecruiterProfile(String city, String company, String country, String firstName, String lastname, String profilePhoto, String state, int userAccountId, Users userID) {
+    public RecruiterProfile(String city, String company, String country, String firstName, String lastName, String profilePhoto, String state, int userAccountId, Users userID) {
         this.city = city;
         this.company = company;
         this.country = country;
         this.firstName = firstName;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.profilePhoto = profilePhoto;
         this.state = state;
         this.userAccountId = userAccountId;
         this.userID = userID;
+    }
+
+    public RecruiterProfile(Users users){
+        this.userID = users;
     }
 
     public int getUserAccountId() {
@@ -71,11 +75,11 @@ public class RecruiterProfile {
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
 
     public String getCity() {
@@ -125,7 +129,7 @@ public class RecruiterProfile {
         sb.append("userAccountId=").append(userAccountId);
         sb.append(", userID=").append(userID);
         sb.append(", firstName=").append(firstName);
-        sb.append(", lastname=").append(lastname);
+        sb.append(", lastname=").append(lastName);
         sb.append(", city=").append(city);
         sb.append(", state=").append(state);
         sb.append(", country=").append(country);
