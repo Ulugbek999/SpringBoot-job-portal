@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotEmpty;
 @Table(name="users")
 public class Users {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int userId;
 
     @Column(unique=true) // to make sure the email addresses are unique
@@ -79,7 +79,7 @@ public class Users {
         return isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 
