@@ -46,6 +46,11 @@ public class Users {
         this.userTypeId = userTypeId;
     }
 
+    //overload the method so the instance works in the controller
+    public Users(){
+        
+    }
+
     public int getUserId() {
         return userId;
     }

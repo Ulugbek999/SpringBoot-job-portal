@@ -37,6 +37,11 @@ public class UsersType {
         this.users = users;
     }
 
+    //add a default constructor because it failed without it...
+    public UsersType(){
+        
+    }
+
     public int getUserTypeId() {
         return userTypeId;
     }
