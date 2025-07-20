@@ -143,7 +143,7 @@ public class JobSeekerProfile {
     }
 
 
-    public String getEmployeementType() {
+    public String getEmploymentType() {
         return employmentType;
     }
 

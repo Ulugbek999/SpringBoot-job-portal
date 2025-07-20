@@ -25,5 +25,10 @@ public class JobSeekerProfileService {
         
         return jobSeekerProfileRepository.findById(id);
     }
+
+    
+    public JobSeekerProfile addNew(JobSeekerProfile jobSeekerProfile){
+        return jobSeekerProfileRepository.save(jobSeekerProfile); //saving to the database
+    }
     
 }

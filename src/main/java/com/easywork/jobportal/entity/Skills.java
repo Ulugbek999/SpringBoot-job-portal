@@ -22,7 +22,7 @@ public class Skills {
 
     private String experienceLevel;
 
-    private String yearsOfExpereience;
+    private String yearsOfExperience;
 
 
     @ManyToOne(cascade=CascadeType.ALL)
@@ -34,12 +34,12 @@ public class Skills {
         //empty constructor
     }
 
-    public Skills(String experienceLevel, int id, JobSeekerProfile jobSeekerProfile, String name, String yearsOfExpereience) {
+    public Skills(String experienceLevel, int id, JobSeekerProfile jobSeekerProfile, String name, String yearsOfExperience) {
         this.experienceLevel = experienceLevel;
         this.id = id;
         this.jobSeekerProfile = jobSeekerProfile;
         this.name = name;
-        this.yearsOfExpereience = yearsOfExpereience;
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     public int getId() {
@@ -66,12 +66,12 @@ public class Skills {
         this.experienceLevel = experienceLevel;
     }
 
-    public String getYearsOfExpereience() {
-        return yearsOfExpereience;
+    public String getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setYearsOfExpereience(String yearsOfExpereience) {
-        this.yearsOfExpereience = yearsOfExpereience;
+    public void setYearsOfExperience(String yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     public JobSeekerProfile getJobSeekerProfile() {
@@ -85,7 +85,7 @@ public class Skills {
     @Override
     public String toString() {
         return "Skills [id=" + id + ", name=" + name + ", experienceLevel=" + experienceLevel + ", yearsOfExpereience="
-                + yearsOfExpereience + ", jobSeekerProfile=" + jobSeekerProfile + "]";
+                + yearsOfExperience + ", jobSeekerProfile=" + jobSeekerProfile + "]";
     }
 
 

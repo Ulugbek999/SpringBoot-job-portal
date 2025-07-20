@@ -1,7 +1,9 @@
 package com.easywork.jobportal.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ import com.easywork.jobportal.entity.Skills;
 import com.easywork.jobportal.entity.Users;
 import com.easywork.jobportal.repository.UsersRepository;
 import com.easywork.jobportal.services.JobSeekerProfileService;
+import com.easywork.jobportal.util.FileUploadUtil;
 
 @Controller
 @RequestMapping("/job-seeker-profile")
@@ -50,7 +54,7 @@ public class JobSeekerProfileController {
             Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(user.getUserId());
             if(seekerProfile.isPresent()){
                 jobSeekerProfile = seekerProfile.get();
-                if(jobSeekerProfile.getSkills().isEmpty()){
+                if(jobSeekerProfile.getSkills() == null || jobSeekerProfile.getSkills().isEmpty()){
                     skills.add(new Skills());
                     jobSeekerProfile.setSkills(skills);
                 }
@@ -80,6 +84,41 @@ public class JobSeekerProfileController {
         model.addAttribute("profile", jobSeekerProfile);
         model.addAttribute("skills", skillsList);
 
+        //associate the skills with the appropriate job seeker profile accordingly
+
+        for(Skills skills : jobSeekerProfile.getSkills()){
+            skills.setJobSeekerProfile(jobSeekerProfile);
+        }
+
+        String imageName="";
+        String resumeName="";
+
+        //profile photo
+        if(!Objects.equals(image.getOriginalFilename(), "")){
+            imageName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
+            jobSeekerProfile.setProfilePhoto(imageName);
+        }
+        //profile resume
+        if(!Objects.equals(pdf.getOriginalFilename(), "")){
+            resumeName = StringUtils.cleanPath(Objects.requireNonNull(pdf.getOriginalFilename()));
+            jobSeekerProfile.setResume(resumeName);
+        }
+
+        //save to the database using service
+        JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
+
+        try {
+            String uploadDir = "/photos/candidate/"+jobSeekerProfile.getUserAccountId();
+            if(!Objects.equals(image.getOriginalFilename(), "")){
+                FileUploadUtil.saveFile(uploadDir, imageName, image);
+            }
+            if(!Objects.equals(pdf.getOriginalFilename(), "")){
+                FileUploadUtil.saveFile(uploadDir, resumeName, pdf);
+            }
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+            // TODO: handle exception
+        }
         return "redirect:/dashboard/";
 
 
