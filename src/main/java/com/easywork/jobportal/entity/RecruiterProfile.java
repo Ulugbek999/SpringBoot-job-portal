@@ -1,5 +1,7 @@
 package com.easywork.jobportal.entity;
 
+import java.beans.Transient;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -74,12 +76,12 @@ public class RecruiterProfile {
         this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastName = lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getCity() {
@@ -120,6 +122,13 @@ public class RecruiterProfile {
 
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    @Transient // -> because we are not persisting this into the database
+    public String getPhotosImagePath(){
+        if(profilePhoto == null) return null;
+        
+        return "/photos/recruiter/" + userAccountId + "/" + profilePhoto;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class MvcConfig implements WebMvcConfigurer {
         //the ** will match on all sub-directories
 
         registry.addResourceHandler("/" + uploadDir + "/**")
-                .addResourceLocations("file: " + path.toAbsolutePath() + "/");
+                .addResourceLocations("file:" + path.toAbsolutePath() + "/");
         
     }
 
