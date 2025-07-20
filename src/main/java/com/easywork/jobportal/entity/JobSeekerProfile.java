@@ -17,7 +17,7 @@ public class JobSeekerProfile {
     
 
         @Id
-        private int userAccountId;
+        private Integer userAccountId;
 
         @OneToOne
         @JoinColumn(name = "user_account_id")
@@ -43,7 +43,7 @@ public class JobSeekerProfile {
     }
 
 
-    public JobSeekerProfile(String city, String country, String employmentType, String firstName, String lastName, String profilePhoto, String resume, List<Skills> skills, String state, int userAccountId, Users userId, String workAuthorization) {
+    public JobSeekerProfile(String city, String country, String employmentType, String firstName, String lastName, String profilePhoto, String resume, List<Skills> skills, String state, Integer userAccountId, Users userId, String workAuthorization) {
         this.city = city;
         this.country = country;
         this.employmentType = employmentType;
@@ -63,12 +63,12 @@ public class JobSeekerProfile {
     }
 
 
-    public int getUserAccountId() {
+    public Integer getUserAccountId() {
         return userAccountId;
     }
 
 
-    public void setUserAccountId(int userAccountId) {
+    public void setUserAccountId(Integer userAccountId) {
         this.userAccountId = userAccountId;
     }
 
@@ -183,12 +183,24 @@ public class JobSeekerProfile {
     }
 
 
+    //a method to get the image
+    public String getPhotosImagePath(){
+
+        if (profilePhoto == null || userAccountId ==null) return null;
+
+        return "/photos/candidate/" + userAccountId +"/"+profilePhoto;
+    }
+
+
+
+
+
     @Override
     public String toString() {
         return "JobSeekerProfile [userAccountId=" + userAccountId + ", userId=" + userId + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", city=" + city + ", state=" + state + ", country=" + country
                 + ", workAuthorization=" + workAuthorization + ", employeementType=" + employmentType + ", resume="
-                + resume + ", profilePhoto=" + profilePhoto + ", skills=" + skills + "]";
+                + resume + ", profilePhoto=" + profilePhoto + " ";
     }
 
     
