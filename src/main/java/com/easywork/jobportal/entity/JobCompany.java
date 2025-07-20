@@ -11,7 +11,7 @@ public class JobCompany {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private Integer Id;
 
     private String name;
     private String logo;
@@ -19,17 +19,17 @@ public class JobCompany {
     public JobCompany(){}
 
     public JobCompany(Integer id, String logo, String name) {
-        this.id = id;
+        this.Id = id;
         this.logo = logo;
         this.name = name;
     }
 
     public Integer getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getName() {
@@ -50,7 +50,7 @@ public class JobCompany {
 
     @Override
     public String toString() {
-        return "JobCompany [id=" + id + ", name=" + name + ", logo=" + logo + "]";
+        return "JobCompany [id=" + Id + ", name=" + name + ", logo=" + logo + "]";
     }
 
     

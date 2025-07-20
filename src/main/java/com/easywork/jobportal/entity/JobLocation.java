@@ -10,7 +10,7 @@ public class JobLocation {
     
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
 
@@ -22,7 +22,7 @@ public class JobLocation {
     public JobLocation(){}
 
     public JobLocation(Integer id, String city, String state, String country) {
-        Id = id;
+        this.Id = id;
         this.city = city;
         this.state = state;
         this.country = country;
@@ -32,8 +32,8 @@ public class JobLocation {
         return Id;
     }
 
-    public void setId(Integer Id) {
-        this.Id = Id;
+    public void setId(Integer id) {
+        this.Id = id;
     }
 
     public String getCity() {
