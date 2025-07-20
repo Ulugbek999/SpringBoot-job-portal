@@ -72,16 +72,13 @@
 
         </ul>
 
-        <!--Displaying the user's profile image-->
         <img
                 class="rounded-circle me-3"
                 height="50px"
                 width="50x"
-                th:if="${user.photosImagePath != null}"
+                th:if="${user.photosImagePath!=null}"
                 th:src="@{${user?.photosImagePath}}"
         />
-
-
 
         <label th:if="${user.firstName != null && user.lastName != null}"
                th:text="${user.firstName+' '+user.lastName}"
@@ -109,7 +106,11 @@
                         th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
                         style="text-decoration: none; color: black"
                 >
-                    <div
+                    
+                    <!---onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})"-->
+                <div
+                            
+
                             class="job-row"
                     >
                         <div class="row">
