@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.easywork.jobportal.entity.JobPostActivity;
@@ -93,6 +94,18 @@ public class JobPostActivityController {
         model.addAttribute("jobPostActivity", jobPostActivity);
         JobPostActivity saved = jobPostActivityService.addNew(jobPostActivity);
         return "redirect:/dashboard/";
+    }
+
+    //request mapping for editing a job by a recruiter
+
+    @PostMapping("dashboard/edit/{id}")
+    public String editJob(@PathVariable("id") int id, Model model){
+
+        JobPostActivity jobPostActivity = jobPostActivityService.getOne(id);
+        model.addAttribute("jobPostActivity", jobPostActivity);
+        model.addAttribute("user", usersService.getCurrentUserProfile());
+
+        return "add-jobs";
     }
 
 }
