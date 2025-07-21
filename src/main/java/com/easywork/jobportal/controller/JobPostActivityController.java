@@ -1,5 +1,7 @@
 package com.easywork.jobportal.controller;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -11,18 +13,23 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.easywork.jobportal.entity.JobPostActivity;
+import com.easywork.jobportal.entity.JobSeekerApply;
+import com.easywork.jobportal.entity.JobSeekerProfile;
+import com.easywork.jobportal.entity.JobSeekerSave;
 import com.easywork.jobportal.entity.RecruiterJobsDto;
 import com.easywork.jobportal.entity.RecruiterProfile;
 import com.easywork.jobportal.entity.Users;
 import com.easywork.jobportal.services.JobPostActivityService;
+import com.easywork.jobportal.services.JobSeekerApplyService;
+import com.easywork.jobportal.services.JobSeekerSaveService;
 import com.easywork.jobportal.services.UsersService;
-import java.time.LocalDate;
 
 
 
@@ -32,11 +39,19 @@ public class JobPostActivityController {
 
     private final UsersService usersService;
     private final JobPostActivityService jobPostActivityService;
+    private final JobSeekerApplyService jobSeekerApplyService;
+    private final JobSeekerSaveService jobSeekerSaveService;
 
     @Autowired
-    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService){
+    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService, JobSeekerApplyService jobSeekerApplyService, JobSeekerSaveService jobSeekerSaveService
+){
         this.usersService = usersService;
         this.jobPostActivityService = jobPostActivityService;
+        this.jobSeekerApplyService =  jobSeekerApplyService;
+        this.jobSeekerSaveService = jobSeekerSaveService;
+
+;
+
     }
 
 
@@ -100,6 +115,14 @@ public class JobPostActivityController {
             type=false;
         }
 
+        if(!dateSearchFlag && !remote  && !type && !StringUtils.hasText(job) &&  !StringUtils.hasText(location)){
+            jobPost = jobPostActivityService.getAll();
+
+        }else{
+            jobPost = jobPostActivityService.search(job, location, Arrays.asList(partTime, fullTime, freeLance), Arrays.asList(remoteOnly, officeOnly, partialRemote),
+                                                    searchDate);
+        }
+
 
 
 
@@ -116,15 +139,47 @@ public class JobPostActivityController {
             if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))){
                 List<RecruiterJobsDto> recruiterJobs = jobPostActivityService.getRecruiterJobs(((RecruiterProfile)currentUserProfile).getUserAccountId());
                 model.addAttribute("jobPost", recruiterJobs);
+            } else {
+                List<JobSeekerApply> jobSeekerApplyList = jobSeekerApplyService.getCandidatesJobs((JobSeekerProfile) currentUserProfile);
+                List<JobSeekerSave> jobSeekerSaveList = jobSeekerSaveService.getCadidatesJob((JobSeekerProfile) currentUserProfile);
+
+                boolean exist;
+                boolean saved;
+
+                for(JobPostActivity jobActivity : jobPost){
+                    exist = false;
+                    saved = false;
+                    for(JobSeekerApply jobSeekerApply : jobSeekerApplyList){
+                        if(Objects.equals(jobActivity.getJobPostId(), jobSeekerApply.getJob().getJobPostId())){
+                            jobActivity.setIsActive(true);
+                            exist = true;
+                            break;
+                        }
+                    }
+
+                    for(JobSeekerSave jobSeekerSave: jobSeekerSaveList){
+                        if(Objects.equals(jobActivity.getJobPostId(), jobSeekerSave.getJob())){
+                            jobActivity.setIsSaved(true);
+                            saved = true;
+                            break;
+                        }
+                    }
+
+                    if(!exist){
+                        jobActivity.setIsActive(false);
+                    }
+                    if(!saved){
+                        jobActivity.setIsSaved(false);
+                    }
+                    model.addAttribute("jobPost", jobPost);
+
+                }
             }
 
 
 
         }
         model.addAttribute("user", currentUserProfile);
-        
-
-
         return "dashboard";
     }
 
