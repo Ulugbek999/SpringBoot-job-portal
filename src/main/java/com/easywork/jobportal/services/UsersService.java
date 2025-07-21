@@ -38,6 +38,7 @@ public class UsersService {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     
     //this function receives the data from the UsersController and then saves them in the MySQL/Hibernate entities using Repository 
     public Users addNew(Users users){
@@ -102,6 +103,10 @@ public class UsersService {
 
     }
 
+        public Users findByEmail(String currentUsername) {
+            return usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("User not " +
+                    "found"));
+        }
 
 
 }
