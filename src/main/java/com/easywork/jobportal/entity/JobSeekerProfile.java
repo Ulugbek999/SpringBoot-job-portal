@@ -1,5 +1,6 @@
 package com.easywork.jobportal.entity;
 
+import java.beans.Transient;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -183,7 +184,8 @@ public class JobSeekerProfile {
     }
 
 
-    //a method to get the image
+    //a method to get the image 
+    @Transient
     public String getPhotosImagePath(){
 
         if (profilePhoto == null || userAccountId ==null) return null;

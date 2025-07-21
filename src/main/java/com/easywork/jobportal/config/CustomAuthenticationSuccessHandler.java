@@ -16,7 +16,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
 
-    //A function to redirect users to their respective dashboards after they log in.
+    //A function to redirect users to their respective dashboards after they login
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
